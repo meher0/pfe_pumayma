@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.unite')
 @section('content')
 
 
@@ -37,11 +37,12 @@
 <div>@if ($errors->has('role'))
           <strong style="color: red;">{{ $errors->first('role') }}</strong>
           @endif</div>
-<th>  <select class="input" required name="role" class="form-control" value="{{ $users->rolz }}">
+<th>  <select   name="role" class="form-control" required>
     <option disabled  selected> --choose role --</option>
     <option value="ministere"> ministere</option>
     <option value="invite"> invite</option>
     <option value="visiteur"> visiteur</option>
+    <option value="unite"> unite</option>
     <option value="admin"> admin</option>
             </select>
 </div></th></tr>

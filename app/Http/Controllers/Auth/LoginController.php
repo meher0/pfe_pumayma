@@ -10,40 +10,45 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-   
+
 
     use AuthenticatesUsers;
 
-   
+
     /* protected $redirectTo = RouteServiceProvider::HOME; */
 
 
-    
+
     public function redirectTo(){
 
         if(Auth::user()->role == 'admin')
         {
-            return 'home'; 
+            return 'admin/compte/list';
         }
 
         if(Auth::user()->role == 'invite')
         {
-            return 'invite/home'; 
+            return 'invite/home';
         }
 
         if(Auth::user()->role == 'visiteur')
         {
-            return 'visiteur'; 
+            return 'visiteur';
         }
 
         if(Auth::user()->role == 'ministere')
         {
-            return 'ministere'; 
+            return 'ministere';
+        }
+
+        if(Auth::user()->role == 'unite')
+        {
+            return 'unite';
         }
     }
-  
 
-    
+
+
     public function __construct()
     {
         $this->middleware('guest')->except('logout');

@@ -15,10 +15,7 @@
 		   <span class="sign">  <a href="{{ url('/home') }}"class="act">الحساب الخاص</a></span>
 		   @else
            <span class="sign">  <a href="{{ route('login') }}" class="act">تسجيل الدخول</a></span>
-			   <span class="sign">
-			   @if (Route::has('register'))
-				   <a href="{{ route('register') }}" class="act">انشاء حساب</a>
-			   @endif
+			  
 		   @endauth
 
 				  @endif

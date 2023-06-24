@@ -40,15 +40,8 @@
                         <!-- Authentication Links -->
                         @guest
 
-                    
-                            <li class="nav-item">
-                                <a class="nav-link contact" href="{{ route('login') }}">{{ __('تسجيل الدخول ') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link contact" href="{{ route('register') }}">{{ __('انشاء حساب ') }}</a>
-                                </li>
-                            @endif
+
+                           
                         @else
                             <li class="nav-link">
                                 <a id="nav-link contact" class="nav-link contact" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

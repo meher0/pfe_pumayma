@@ -22,26 +22,18 @@
       <link rel="icon"type="image/png" href="../images\logo1.png">
       <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-      <link rel="stylesheet" href="/vendor/toastr/toastr.min.css">
-      <script src="/vendor/toastr/toastr.min.js"></script>
-
-
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
 
-        <!-- Toaster -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
 </head>
 
 <body id="page-top">
-
     <!-- Page Wrapper -->
     <div id="wrapper">
+
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -52,23 +44,90 @@
                 </div>
                 <div class="sidebar-brand-text mx-3"> Administrateur  <sup></sup></div>
             </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="/home">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>لوحة التحكم</span></a>
+            </li>
+
+            <!-- Divider -->
             <hr class="sidebar-divider">
+
+
+
+   <hr class="sidebar-divider">
+
+
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-wrench"></i>
+                    <span>المؤسسات</span>
+                </a>
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                         <h6 class="collapse-header">تفاصيل المؤسسات</h6>
+                        <a class="collapse-item" href="{{ route('ListEntrepise') }}">قائمة المؤسسات</a>
+                        <a class="collapse-item" href="{{route('getAddEntreprise')}}">اضافة مؤسسة</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>الاجتماعات</span>
+                </a>
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+
+                        <a class="collapse-item" href="{{ url('prepare_reunion') }}">   التخطيط لاجتماع</a>
+                        <a class="collapse-item" href="{{ url('fetch_reunion') }}">قائمةالاجتماعات </a>
+                    </div>
+                </div>
+            </li>
+   <!-- Divider -->
+   <hr class="sidebar-divider">
+
+
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="">
-                    <i class="fas fa-users"></i>
-                    <span>Compte</span></a>
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>الاحصائيات</span></a>
             </li>
    <!-- Divider -->
+   <hr class="sidebar-divider">
 
-   <!-- Nav Item - Charts -->
-   <li class="nav-item">
-       <a class="nav-link" href="">
-           <i class="fas fa-history"></i>
-           <span>Historique</span></a>
-   </li>
-<!-- Divider -->
 
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>الارشيف</span></a>
+            </li>
+
+          <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
         </ul>
 
         <!-- End of Sidebar -->

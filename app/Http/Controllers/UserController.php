@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Mail;
 use App\Mail\Sendmail;
@@ -11,18 +13,32 @@ class UserController extends Controller
     public function ListUser()
     {
         $users= User::where('role','<>','admin')
-        ->where('etat',0)->latest()->get();
+        ->latest()->get();
         return view('Admin.compte.liste',compact('users'));
     }
 
 
-    public function NewUser()
-    {
-        $users= User::where('role','<>','admin')->where('etat',1)->latest()->get();
+    public function handleAddAccount(Request $request){
+        $users =  new User();
+        $email = $request->email;
+
+        $search = User::where('email','=',$email)->get();
+        if ($search->count()) {
+            return back()->with('alert_red','this account has been exist');
+        }else{
+        $users->name      = $request->name;
+        $users->email     = $request->email;
+        $users->role      = $request->role;
+        $users->phone     = $request->phone;
+        $users->password  = Hash::make($request->password);
+
+        $users->save();
+
+        return back()->with('alert_green','account created with success');
+        }
+     }
 
 
-        return view('Admin.compte.newliste',compact('users'));
-    }
 
     public function getUpdate(Request $request,$id)
     {
@@ -76,10 +92,9 @@ class UserController extends Controller
     public function DeleteUser(Request $request)
     {
         $id=$request['id'];
-        $users=\App\Models\User::find($id);
+        $users = User::find($id);
         $users->delete();
-        $users=\App\Models\User::all();
-        return redirect()->route('ListUser',compact('users'));
+        return back();
      }
 
      public function getAddUser()
