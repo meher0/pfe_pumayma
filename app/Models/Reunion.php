@@ -14,14 +14,10 @@ class Reunion extends Model
 
 
     public function invites(){
-        return $this->hasMany(invite::class);
-        
-
-
+        return $this->hasMany(Invite::class);
     }
 
 
-    
 
     public function users()
     {

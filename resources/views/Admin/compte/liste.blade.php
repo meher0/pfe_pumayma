@@ -4,13 +4,13 @@
 <div class="container">
 
     @if (session('alert_green'))
-    <script>
-      toastr.options = {
-      "progressBar" : true,
-      "closeButton" : true,
-    }
-      toastr.success("{{ session('alert_green') }}",'Inbanned', {timeOut:12000})
-    </script>
+        <script>
+        toastr.options = {
+        "progressBar" : true,
+        "closeButton" : true,
+        }
+        toastr.success("{{ session('alert_green') }}",'Inbanned', {timeOut:12000})
+        </script>
     @endif
 
     @if (session('alert_red'))
@@ -50,23 +50,23 @@
     </thead>
     <tbody>
     @forelse ( $users as $user)
-    <tr>
-        <td></td>
-        <td>{{$user->id}}</td>
-        <td>{{$user->name}}</td>
-        <td>{{$user->email}}</td>
-        <td>{{$user->phone}}</td>
-        <td>{{$user->role}}</td>
-        <td>
-            <a href="{{route('getUpdateuser',['id'=>$user->id])}}"><span class="btn btn-warning glyphicon-penciel"><i class="fas fa-pencil-alt"></i></span></a>
-            <a href="{{url('DeleteUser',$user->id)}}" onclick="return confirm('Are you sure ?');"><span class="btn btn-danger glyphicon-penciel"><i class="fas fa-trash-alt"></i></span></a>
-        </td>
-    </tr>
+        <tr>
+            <td></td>
+            <td>{{$user->id}}</td>
+            <td>{{$user->name}}</td>
+            <td>{{$user->email}}</td>
+            <td>{{$user->phone}}</td>
+            <td>{{$user->role}}</td>
+            <td>
+                <a href="{{route('showEditAccount',$user->id)}}"><span class="btn  btn-outline-warning glyphicon-penciel"><i class="fas fa-pencil-alt"></i></span></a>
+                <a href="{{route('handleDeleteAccount',$user->id)}}" onclick="return confirm('Are you sure ?');"><span class="btn  btn-outline-danger glyphicon-penciel"><i class="fas fa-trash-alt"></i></span></a>
+            </td>
+        </tr>
     @empty
-    <td class="alert alert-danger">No Data</td>
+
+        <div class="alert  alert-warning">No Data</div>
+
     @endforelse
-
-
 
    </tbody>
     </table>
@@ -147,6 +147,7 @@
                 <div class="col-md-6">
                 <select id="role" class="form-control @error('role') is-invalid @enderror" name="role" value="{{ old('role') }}" required autocomplete="role">
                 <option disabled  selected> --choose role --</option>
+                <option value="unite"> unite</option>
                 <option value="ministere"> ministere</option>
                 <option value="invite"> invite</option>
                 <option value="visiteur"> visiteur</option>

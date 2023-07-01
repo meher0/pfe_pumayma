@@ -12,10 +12,19 @@
 		   @if (Route::has('login'))
 
 		   @auth
-		   <span class="sign">  <a href="{{ url('/home') }}"class="act">الحساب الخاص</a></span>
+           @if (Auth::user()->role == "admin")
+           <span class="sign">  <a href="{{ url('list') }}"class="act">الحساب الخاص</a></span>
+           @endif
+           @if (Auth::user()->role == "invite")
+           <span class="sign">  <a href="{{ url('invite/home') }}"class="act">الحساب الخاص</a></span>
+           @endif
+           @if (Auth::user()->role == "unite")
+           <span class="sign">  <a href="{{ url('unite/home') }}"class="act">الحساب الخاص</a></span>
+           @endif
+
 		   @else
            <span class="sign">  <a href="{{ route('login') }}" class="act">تسجيل الدخول</a></span>
-			  
+
 		   @endauth
 
 				  @endif

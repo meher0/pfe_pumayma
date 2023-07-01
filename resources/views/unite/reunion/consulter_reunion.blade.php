@@ -1,82 +1,76 @@
-@extends('layouts.admin')
+@extends('layouts.unite')
 @section('content')
-<div class="container">
-<div class="row">
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <h2 class="text-center" style="color: rgba(255, 0, 0, 0.627);">   قائمةالاجتماعات</h2>
-      </div>
-    
-          @if (session('status'))
-              <div class="alert alert-success">
-                {{ session('status') }}
-              </div>
-          @endif
 
-        <div class="table-sites">
-        <table class="table table-hover">
-          <thead> <tr>
-           
-              <th>title</th>
-              <th>objectif</th>
-              <th>type</th>
-              <th>lieu</th>
-              <th>start</th>
-              <th>fin</th>
-              <th>document</th>
-              <th>nombre des invites</th>
-              <th>action</th>
-            </tr>
-          </thead>
+    @if (session('alert_green'))
+        <script>
+        toastr.options = {
+        "progressBar" : true,
+        "closeButton" : true,
+        }
+        toastr.success("{{ session('alert_green') }}",'Inbanned', {timeOut:10000})
+        </script>
+    @endif
 
-          <tbody>
-            @foreach ($datas as $data)
+    @if (session('alert_red'))
+        <script>
+        toastr.options = {
+        "progressBar" : true,
+        "closeButton" : true,
+        }
+        toastr.error("{{ session('alert_red') }}",'Banned', {timeOut:10000})
+        </script>
+    @endif
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Liste des réunions</h6>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+            <thead>
                 <tr>
-                   
-                    <td> {{$data->title}} </td>
-                    <td> {{$data->objectif}} </td>
-                    <td> {{$data->type}} </td>
-                    <td> {{$data->lieu}} </td>
-                    <td> {{$data->start}} </td>
-                    <td> {{$data->end}} </td>
-                    <td> {{$data->document}} </td>
-                    <td> {{$data->invites->count()}} </td>
-                    <td> 
-                        <a title="view invite"   href="{{url('view_invite_reunion',$data->id)}}"><span class="btn btn-dark btn-sm glyphicon-send">view invite</i></span></a>
-                        <a title="donwload"      href="{{url('download',$data->document)}}"><span class="btn btn-success  glyphicon-send"><i class="fas fa-download"></i></span></a>
-                        <a title="view document" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $data->id }}" href=""><span class="btn btn-warning glyphicon-send"><i class="fas fa-eye"></i></span></a>
-                        <a title="supprimer"     href="{{url('delete_reunion',$data->id)}}"><span class="btn btn-danger glyphicon-send"><i class="fas fa-trash"></i></span></a>
-                      
-                      </td>
-
+                    <th>title</th>
+                    <th>objectif</th>
+                    <th>type</th>
+                    <th>lieu</th>
+                    <th>start</th>
+                    <th>fin</th>
+                    <th>document</th>
+                    <th>nombre des invites</th>
+                    <th>action</th>
                 </tr>
+            </thead>
 
-
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal{{ $data->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header bg-warning">
-        <h5 class="modal-title " id="exampleModalLabel">View document</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <iframe style="width: 100%;height:100%;" src="uploads/documents/{{ $data->document }}" frameborder="0"></iframe>
-      </div>
-     
+            <tbody>
+                @foreach ($datas as $data)
+                    <tr>
+                        <td> {{$data->title}} </td>
+                        <td> {{$data->objectif}} </td>
+                        <td> {{$data->type}} </td>
+                        <td> {{$data->lieu}} </td>
+                        <td> {{$data->start}} </td>
+                        <td> {{$data->end}} </td>
+                        <td> {{$data->document}} </td>
+                        <td> {{$data->invites->count()}} </td>
+                        <td>
+                            <div class="d-flex">
+                                <div class="dropdown me-1">
+                                    <i style="cursor: pointer;" class="fas fa-ellipsis-v" id="dropdownMenuOffset" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="10,20"></i>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
+                                    <li><a class="dropdown-item" href="{{--  {{url('view_invite_reunion',$data->id)}}  --}}">view document</a></li>
+                                    <li><a class="dropdown-item" href="{{url('view_invite_reunion',$data->id)}}">view invite</a></li>
+                                    @if ($data->end < now())
+                                    <li><a class="dropdown-item" href="{{route('showReunionFinish',$data->id)}}">Ajouter procés verbal</a></li>
+                                    @endif
+                                    <li><a class="dropdown-item" href="{{url('delete_reunion',$data->id)}}">supprimer reunion</a></li>
+                                </ul>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+         </table>
     </div>
-  </div>
-</div>
-            @endforeach
-
-
-           </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 @endsection

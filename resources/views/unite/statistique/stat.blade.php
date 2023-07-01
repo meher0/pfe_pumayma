@@ -1,5 +1,5 @@
 
-@extends('layouts.admin')
+@extends('layouts.unite')
 
 @section('content')
                     <!-- Content Row -->
@@ -89,10 +89,10 @@
                         </div>
                     </div>
 
-    
-  
-        
-     
+
+
+
+
     </body>
    </html>
    @endsection

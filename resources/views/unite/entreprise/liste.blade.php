@@ -1,5 +1,25 @@
-@extends('layouts.admin')
+@extends('layouts.unite')
 @section('content')
+
+@if (session('alert_green'))
+    <script>
+      toastr.options = {
+      "progressBar" : true,
+      "closeButton" : true,
+    }
+      toastr.success("{{ session('alert_green') }}",'success', {timeOut:8000})
+    </script>
+@endif
+
+@if (session('alert_red'))
+    <script>
+        toastr.options = {
+        "progressBar" : true,
+        "closeButton" : true,
+        }
+        toastr.error("{{ session('alert_red') }}",'warning', {timeOut:8000})
+    </script>
+@endif
 <div class="container">
 <div class="row">
   <div class="col-md-12">
@@ -10,7 +30,7 @@
       <a href="{{ route('getAddEntreprise') }}" class="btn btn-success">اضافة مؤسسة</a>
 
         <div class="table-sites">
-        <table class="table table-hover">
+        <table class="table table-hover"  id="dataTable" width="100%" cellspacing="0">
           <thead> <tr>
             <th></th>
    <th>الهاتف</th>

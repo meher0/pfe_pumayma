@@ -1,8 +1,8 @@
-@extends('layouts.admin')
+@extends('layouts.unite')
 @section('content')
 
 
-    
+
     <div class="row row-cols-1 row-cols-md-3 g-4 ml-5">
         @foreach ($users as $data)
         <div class="card border-success mb-3" style="max-width: 25rem;">
@@ -15,7 +15,7 @@
           </div>
         @endforeach
       </div>
-    
 
-    
+
+
 @endsection

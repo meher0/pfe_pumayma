@@ -39,7 +39,7 @@
         padding: 2px 6px;
         position: absolute;
         right: -10px;
-        top: -8px; 
+        top: -8px;
         background: rgba(221, 3, 3, 0.966);
     }
 </style>
@@ -63,20 +63,20 @@
                                     <i class="fas fa-home"></i>Accueil
                                     <span class="bot-line"></span>
                                 </a>
-                            </li> 
+                            </li>
                             <li class="has-sub">
-                                <a href="{{ url('invite/voir_reunion') }}">
+                                <a href="{{ route('showInviteReunion') }}">
                                     <i class="fas fa-list"></i>Voir reunions
                                     <span class="bot-line"></span>
                                 </a>
-                            </li> 
-                            
+                            </li>
+
                             <li class="has-sub">
-                                <a href="#">
-                                    <i class="fas fa-file"></i>Gestionnaire des reclamations
+                                <a href="{{ route('showInvitePv') }}">
+                                    <i class="fas fa-file"></i>Procés verbal
                                     <span class="bot-line"></span>
                                 </a>
-                            </li> 
+                            </li>
 
                         </ul>
                     </div>
@@ -98,7 +98,7 @@
                                         <span class="date">April 12, 2018 06:50</span>
                                     </div>
                                 </div>
-                               
+
                                 <div class="notifi__footer">
                                     <a href="#">All Messages</a>
                                 </div>
@@ -143,7 +143,7 @@
                                 </div>
                             </div>
                         </div>
-                       
+
                         <div class="account-wrap">
                             <div class="account-item account-item--style2 clearfix js-item-menu">
                                 <div class="image">
@@ -171,7 +171,7 @@
                                             <a href="#">
                                                 <i class="zmdi zmdi-account"></i>Profil</a>
                                         </div>
-                                       
+
                                     </div>
                                     <div class="account-dropdown__footer">
                                         <a href="{{ route('logout') }}" onclick="event.preventDefault();
@@ -215,20 +215,20 @@
                                     <i class="fas fa-home"></i>Accueil
                                     <span class="bot-line"></span>
                                 </a>
-                            </li> 
+                            </li>
                             <li class="has-sub">
                                 <a href="{{ url('responsable/gerer_tache') }}">
                                     <i class="fas fa-list"></i>Gestionnaire des taches
                                     <span class="bot-line"></span>
                                 </a>
-                            </li> 
-                            
+                            </li>
+
                             <li class="has-sub">
                                 <a href="#">
                                     <i class="fas fa-file"></i>Gestionnaire des reclamations
                                     <span class="bot-line"></span>
                                 </a>
-                            </li> 
+                            </li>
                             </ul>
                         </li>
                     </ul>
@@ -253,7 +253,7 @@
                                 <span class="date">April 12, 2018 06:50</span>
                             </div>
                         </div>
-                       
+
                         <div class="notifi__footer">
                             <a href="#">All Messages</a>
                         </div>
@@ -298,8 +298,8 @@
                         </div>
                     </div>
                 </div>
-               
-              
+
+
                 <div class="account-wrap">
                     <div class="account-item account-item--style2 clearfix js-item-menu">
                         <div class="image">
@@ -359,13 +359,13 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="copyright" style="background: rgb(26, 25, 25)">
-                        <p>Copyright © 2023 PoLiNa. All rights reserved.</p>
+                        <p>Copyright © 2023 Reunion TN. All rights reserved.</p>
                     </div>
                 </div>
-            </div>    
+            </div>
         </section>
         <!-- END COPYRIGHT-->
-   
+
     </div>
 
     <!-- Jquery JS-->

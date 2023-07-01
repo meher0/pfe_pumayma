@@ -18,11 +18,11 @@ class CreateReunionsTable extends Migration
             $table->string('title');
             $table->string('objectif');
             $table->string('type');
-            $table->string('document',5000)->nullable();
+            $table->string('document', 5000)->nullable();
             $table->string('lieu');
             $table->integer('etat')->default(0);
-            $table->timestamps('start');
-            $table->timestamps('end');
+            $table->timestamp('start_date')->nullable();
+            $table->timestamp('end_date')->nullable();
             $table->timestamps();
         });
     }

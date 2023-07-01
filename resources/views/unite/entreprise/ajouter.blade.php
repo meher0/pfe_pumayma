@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.unite')
 
 @section('content')
  <h2 class="text-center" style="color: rgba(255, 0, 0, 0.627);">  اضافة مؤسسة </h2>
@@ -6,7 +6,6 @@
 		<div class="container">
 			<form action="{{ route('AddEntreprise') }}" method="post">
             <input type="hidden" name="_token" value="{{ Session::token() }}">
-
             @csrf
 			<div class="row">
 

@@ -23,7 +23,7 @@ class LoginController extends Controller
 
         if(Auth::user()->role == 'admin')
         {
-            return 'admin/compte/list';
+            return 'list';
         }
 
         if(Auth::user()->role == 'invite')
@@ -43,7 +43,7 @@ class LoginController extends Controller
 
         if(Auth::user()->role == 'unite')
         {
-            return 'unite';
+            return 'unite/home';
         }
     }
 

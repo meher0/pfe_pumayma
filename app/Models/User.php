@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     protected $guarded = [];
-    
+
     protected $fillable = [
         'name',
         'email',
@@ -26,16 +26,32 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Reunion::class, 'invites')->withTimestamps();
     }
-   
+
+    public function invites()
+    {
+        return $this->hasMany(Invite::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 
 
-    
+    public function procesVerbals()
+    {
+        return $this->hasManyThrough(ProcesVerbal::class, Invite::class, 'user_id', 'reunion_id');
+    }
+
+
+
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-   
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];

@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.unite')
 @section('content')
 <div class="container">
 <div class="row">
@@ -7,7 +7,7 @@
       <div class="card-header">
         <h2 class="text-center" style="color: rgba(255, 0, 0, 0.627);">   قائمةالمؤسسات</h2>
       </div>
-    
+
           @if (session('status'))
               <div class="alert alert-success">
                 {{ session('status') }}
@@ -15,7 +15,7 @@
           @endif
 
         <div class="table-sites">
-        <table class="table table-hover">
+        <table class="table table-hover"  id="dataTable" width="100%" cellspacing="0">
           <thead> <tr>
             <th></th>
               <th>title</th>
@@ -43,7 +43,7 @@
 
 
 
-{{-- 
+{{--
   <!-- Modal -->
   <div class="modal fade" id="addreunion{{ $planifier->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
