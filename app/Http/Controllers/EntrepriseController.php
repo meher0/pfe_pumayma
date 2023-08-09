@@ -1,13 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Mail\rappelmail;
 use App\Models\Entreprise;
 use App\Models\History;
+use App\Models\Reunion;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use DB;
+use Mail;
 
 class EntrepriseController extends Controller
 {
+
+
+
     public function ListEntrepise()
     {
         $entreprises=Entreprise::latest()->get();

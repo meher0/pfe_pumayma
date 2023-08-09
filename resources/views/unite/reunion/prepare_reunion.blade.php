@@ -15,8 +15,9 @@
           @endif
 
         <div class="table-sites">
-        <table class="table table-hover"  id="dataTable" width="100%" cellspacing="0">
-          <thead> <tr>
+            <table class="table  table-bordered table-hover" id="dataTable" style="border: solid 1px #4e73df">
+                <thead style="background: #4e73df;color:white">
+                <tr>
             <th></th>
               <th>title</th>
               <th>debut</th>

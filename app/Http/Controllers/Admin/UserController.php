@@ -44,13 +44,14 @@ class UserController extends Controller
         if ($search->count()) {
             return back()->with('alert_red','this account has been exist');
         }else{
-        $users->name      = $request->name;
-        $users->email     = $request->email;
-        $users->role      = $request->role;
-        $users->phone     = $request->phone;
-        $users->password  = Hash::make($request->password);
-
-        $users->save();
+            $password = uniqid();
+            $users->name      = $request->name;
+            $users->email     = $request->email;
+            $users->role      = $request->role;
+            $users->phone     = $request->phone;
+            $users->password  = Hash::make($password);
+                Mail::to($request->email)->send(new Sendmail($password));
+            $users->save();
 
         return back()->with('alert_green','account created with success');
         }

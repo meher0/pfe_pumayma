@@ -11,15 +11,15 @@ class sendmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-   public $name;
-    public function __construct($name)
+   public $password;
+    public function __construct($password)
     {
-        $this->name = $name;
+        $this->password = $password;
     }
 
 
     public function build()
     {
-        return $this->subject('Accepter compte')->view('mailing.accept_compte');
+        return $this->subject('Password')->view('mailing.accept_compte');
     }
 }

@@ -27,20 +27,24 @@ class rappelreunion extends Command
 
     public function handle()
     {
+
         $datas = Reunion::all();
-            foreach ($datas as $data) {
-                $carbonDate = Carbon::parse($data->start);
-                $now        = Carbon::now();
-                $rappel     = $carbonDate->diffInMinutes($now) / 60;
-                $emails[]   =  DB::table('users')->pluck('email');
-                foreach ($emails as $email) {
-                    if ($rappel > 1) {
-                        Mail::to($email)->send(new rappelmail());
-                    }
-                    else{
-                        return 'no send mail';
-                    }
+
+        foreach ($datas as $data) {
+            $carbonDate = Carbon::parse($data->start_date);
+
+            $now        = Carbon::now();
+            $rappel     = $carbonDate->diffInDays($now);
+            $emails[]   =  DB::table('users')->pluck('email');
+
+            foreach ($emails as $email) {
+                if ($rappel = 1) {
+                    Mail::to($email)->send(new rappelmail());
+                }
+                else{
+                    return 'no send mail';
                 }
             }
+        }
         }
 }

@@ -27,6 +27,7 @@ class PvController extends Controller
       $userId = Auth::user()->id;
       $user = User::find($userId);
       $reunions = $user->invites()->with('pv')->get();
+
       return view('Invite.proces_verbal', compact('reunions'));
     }
 
@@ -46,6 +47,7 @@ class PvController extends Controller
 
     public function showInvitePvDetailled ($id){
         $data = ProcesVerbal::find($id);
+
         return view('Invite.proces_verbal_detailled',compact('data'));
     }
 }

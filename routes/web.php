@@ -23,6 +23,8 @@ Route::get('calender', [CalenderController::class, 'index']);
 Auth::routes();
 
 
+
+
 //******************* route visiteur **********************/
 Route::group(['middleware'=>['auth','isAdmin']], function(){
 
@@ -43,6 +45,10 @@ Route::group(['middleware'=>['auth','isUnite']], function(){
     Route::get('unite/home',                     [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     //entreprise
     Route::get('/listEntreprise',                [EntrepriseController::class, 'ListEntrepise'])->name('ListEntrepise');
+
+
+
+
     Route::get('/EditEntreprise/{id}',           [EntrepriseController::class, 'getUpdate'])->name('getUpdate');
     Route::post('/EditEntreprises/{id}',         [EntrepriseController::class, 'EditEntreprise'])->name('EditEntreprises');
     Route::get('/DeleteEntreprise/{id}',         [EntrepriseController::class, 'DeleteEntreprise']);
