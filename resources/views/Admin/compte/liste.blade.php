@@ -9,7 +9,7 @@
         "progressBar" : true,
         "closeButton" : true,
         }
-        toastr.success("{{ session('alert_green') }}",'Inbanned', {timeOut:12000})
+        toastr.success("{{ session('alert_green') }}", {timeOut:12000})
         </script>
     @endif
 
@@ -19,7 +19,7 @@
         "progressBar" : true,
         "closeButton" : true,
         }
-        toastr.error("{{ session('alert_red') }}",'Banned', {timeOut:12000})
+        toastr.error("{{ session('alert_red') }}",{timeOut:12000})
     </script>
     @endif
 <div class="row">
