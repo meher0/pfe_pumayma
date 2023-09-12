@@ -16,8 +16,10 @@ class invite extends Model
         return $this->belongsTo(Reunion::class);
     }
 
+
     public function pv()
     {
         return $this->hasOne(ProcesVerbal::class, 'reunion_id', 'reunion_id');
     }
+
 }

@@ -14,11 +14,12 @@ class ProcesVerbal extends Model
         'document',
     ];
 
-
     public function comments()
     {
-        return $this->hasMany(Comment::class,'reunion_id');
+        return $this->hasMany(Comment::class,'proces_verbal_id');
     }
+
+
 }
 
 

@@ -38,7 +38,7 @@ class LoginController extends Controller
 
         if(Auth::user()->role == 'ministere')
         {
-            return 'ministere';
+            return 'ministere/index';
         }
 
         if(Auth::user()->role == 'unite')

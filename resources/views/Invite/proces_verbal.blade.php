@@ -172,6 +172,7 @@
                                         @csrf
                                         <div class="modal-body">
                                             <h4>Commentaires</h4>
+
                                             @if ($reunion->pv->comments->count() > 0)
                                                 @foreach ($reunion->pv->comments as $comment)
                                                     <div class="comment mt-3">
@@ -193,7 +194,7 @@
                                             <p>Aucun commentaire disponible.</p>
                                             @endif
                                             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                            <input type="hidden" name="reunion_id" value="{{ $reunion->reunion->id }}">
+                                            <input type="hidden" name="proces_verbal_id" value="{{ $reunion->pv->id }}">
                                             <div class="form-floating mt-3">
                                                 <textarea class="form-control" name="comment" placeholder="Ecrire un commentaire ici..." id="floatingTextarea2" style="height: 80px"></textarea>
                                             </div>

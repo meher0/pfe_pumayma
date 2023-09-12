@@ -33,12 +33,12 @@ class PvController extends Controller
 
     public function handleAddComment(Request $request)
     {
-        $reunionId  = $request->input('reunion_id');
+        $pvId  = $request->input('proces_verbal_id');
         $userId     = $request->input('user_id');
         $comment    = $request->input('comment');
 
         $newComment = new Comment();
-        $newComment->reunion_id = $reunionId;
+        $newComment->proces_verbal_id = $pvId;
         $newComment->user_id    = $userId;
         $newComment->comment    = $comment;
         $newComment->save();

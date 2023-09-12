@@ -86,18 +86,12 @@ class ReunionController extends Controller
         return response()->download(public_path('uploads/documents/'.$id));
     }
 
-
-
     public function GetInviteReunion($id){
-
         $reunions = Reunion::find($id);
         if(!$reunions) abort(404);
         $users  = $reunions->users;
         return view('unite.reunion.view_invite',compact('users'));
     }
-
-
-
 
     public function DeleteReunion($id){
 

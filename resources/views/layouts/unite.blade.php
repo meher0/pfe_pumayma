@@ -61,12 +61,8 @@
             </li>
 
             <!-- Divider -->
-            <hr class="sidebar-divider">
 
-
-
-   <hr class="sidebar-divider">
-
+             <hr class="sidebar-divider">
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
@@ -84,12 +80,7 @@
                     </div>
                 </div>
             </li>
-
-            <!-- Divider -->
             <hr class="sidebar-divider">
-
-
-
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
@@ -105,7 +96,24 @@
                     </div>
                 </div>
             </li>
-   <!-- Divider -->
+            <hr class="sidebar-divider">
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDecisions"
+                   aria-expanded="true" aria-controls="collapseDecisions">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>القرارات</span>
+                </a>
+                <div id="collapseDecisions" class="collapse" aria-labelledby="headingDecisions" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <!-- Add your links for decisions here -->
+                        <a class="collapse-item" href="{{route('showReunionFinished')}}">إظافة قرار</a>
+                        <a class="collapse-item" href="{{route('showUniteDecision')}}"> القرارات </a>
+                        <!-- Add more decision links as needed -->
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
    <hr class="sidebar-divider">
 
 

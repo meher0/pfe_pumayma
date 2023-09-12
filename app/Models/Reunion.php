@@ -17,10 +17,17 @@ class Reunion extends Model
         return $this->hasMany(Invite::class);
     }
 
-
-
     public function users()
     {
         return $this->belongsToMany(User::class, 'invites')->withTimestamps();
+    }
+    public function comments()
+    {
+        return $this->belongsToMany(Comment::class, 'reunion_id')->withTimestamps();
+    }
+
+    public function decisions()
+    {
+        return $this->hasMany(Decision::class);
     }
 }

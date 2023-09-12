@@ -77,6 +77,12 @@
                                     <span class="bot-line"></span>
                                 </a>
                             </li>
+                            <li class="has-sub">
+                                <a href="{{ route('showListDecision') }}">
+                                    <i class="fas fa-file"></i>Liste de décision
+                                    <span class="bot-line"></span>
+                                </a>
+                            </li>
 
                         </ul>
                     </div>
