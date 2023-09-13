@@ -27,7 +27,10 @@ class InviteController extends Controller
         return view('Invite.show_invite_reunion',compact('datas'));
     }
 
-    public function download($file){
+    public function handleInviteDownload($file){
+        return response()->download(public_path('uploads/decision/'.$file));
+    }
+    public function handleInviteDownloadReunion($file){
         return response()->download(public_path('uploads/documents/'.$file));
     }
 

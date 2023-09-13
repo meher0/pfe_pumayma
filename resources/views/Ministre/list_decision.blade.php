@@ -1,4 +1,4 @@
-@extends('layouts.unite')
+@extends('layouts.ministere')
 @section('content')
 
     @if (session('alert_green'))
@@ -34,12 +34,11 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Liste des réunions Termineé</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Listes des Décisions</h6>
         </div>
         <div class="card-body">
-
-            <table class="table  table-bordered" id="dataTable" style="border: solid 1px #4e73df">
-                <thead style="background: #4e73df;color:white">
+            <table class="table" id="dataTable" style="border: solid 1px #333334">
+                <thead style="background: #333334;color:white">
                 <tr>
                     <th>Titre</th>
                     <th>Reunion ID</th>
@@ -48,7 +47,6 @@
                     <th>Rappel</th>
                     <th>Status</th>
                     <th>Personne responsable</th>
-                    <th>action</th>
                 </tr>
                 </thead>
 
@@ -58,7 +56,7 @@
                         <td> {{$data->title}} </td>
                         <td> {{$data->reunion_id}} </td>
                         <td> {{$data->date_end_decision}} </td>
-                        <td> <a href="{{ route('handleDownloadDecision',$data->file) }}"> <i class="fa fa-file-pdf"></i> télecharger </a> </td>
+                        <td> <a href="{{ route('handleMinistereDownload',$data->file) }}"> <i class="fa fa-file-pdf"></i> télecharger </a> </td>
                         <td>
                             @php
                                 $remainingDays = now()->diffInDays($data->date_end_decision);
@@ -76,7 +74,7 @@
                                     @endif
                                 @endif
                             @else
-                                    <button class="btn btn-secondary btn-sm">Date passée</button>
+                                <button class="btn btn-secondary btn-sm">Date passée</button>
                             @endif
                         </td>
                         <td>
@@ -88,57 +86,55 @@
                             @endif
 
                             @if($data->status== 2)
-                                    <select>
-                                        <option selected readonly>Activé</option>
-                                    </select>
+                                <select>
+                                    <option selected readonly>Activé</option>
+                                </select>
                             @endif
 
                             @if($data->status== 1)
-                                    <select>
-                                        <option selected readonly>En cours d'exécution</option>
-                                    </select>
+                                <select>
+                                    <option selected readonly>En cours d'exécution</option>
+                                </select>
                             @endif
 
                             @if($data->status== 0)
-                                    <select>
-                                        <option selected readonly>Aucune réponse</option>
-                                    </select>
+                                <select>
+                                    <option selected readonly>Aucune réponse</option>
+                                </select>
                             @endif
                         </td>
-                        <td> {{ $data->user->name }} <i data-bs-toggle="modal" data-bs-target="#exampleModal{{ $data->id }}" class="fa fa-eye"> </td>
-                        <td>
-                            <a href="{{ route('handleUniteDeleteDecision',$data->id) }}"  onclick="return confirm('Are you sure ?');"   class="btn btn-outline-danger"><i class="fa fa-trash"></i> </a>
-                        </td>
+                        <td> {{ $data->user->name }} <i data-toggle="modal" data-target="#exampleModal{{ $data->id }}" class="fa fa-eye"> </td>
+
                     </tr>
 
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal{{ $data->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                    <div class="modal-header bg-gradient-primary">
-                        <h5 class="modal-title text-white" id="exampleModalLabel">Information sur responsable</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="floatingInput" value="{{ $data->user->name }}" readonly>
-                                <label for="floatingInput">Nom</label>
-                              </div>
-                              <div class="form-floating">
-                                <input type="text" class="form-control" id="email" value="{{ $data->user->email }}" readonly>
-                                <label for="email">Email</label>
-                              </div> <br>
-                              <div class="form-floating">
-                                <input type="text" class="form-control" id="floatingPassword" value="{{ $data->user->phone }}" readonly>
-                                <label for="floatingPassword">Téléphone</label>
-                              </div>
-                        </form>
-                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal{{ $data->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header bg-gradient-primary">
+                                    <h5 class="modal-title text-white" id="exampleModalLabel">Information sur responsable</h5>
+                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="">
+                                        <div class="form-floating mb-3">
+                                            <label for="floatingInput">Nom</label>
+                                            <input type="text" class="form-control" id="floatingInput" value="{{ $data->user->name }}" readonly>
+                                        </div>
+                                        <div class="form-floating">
+                                            <label for="email">Email</label>
+                                            <input type="text" class="form-control" id="email" value="{{ $data->user->email }}" readonly>
+                                        </div> <br>
+                                        <div class="form-floating">
+                                            <label for="floatingPassword">Téléphone</label>
+                                            <input type="text" class="form-control" id="floatingPassword" value="{{ $data->user->phone }}" readonly>
+                                        </div>
+                                    </form>
+                                </div>
 
+                            </div>
+                        </div>
                     </div>
-                </div>
-                </div>
                 @endforeach
                 </tbody>
             </table>

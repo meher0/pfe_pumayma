@@ -121,7 +121,7 @@
 
     </style>
 
-    <!-- DATA TABLE-->
+
     <section class="p-t-20">
         <div class="container">
             <div class="row">
@@ -131,7 +131,7 @@
                         <div class="table-data__tool-left">
                             <div class="row">
                                 <div class="col-md-10">
-                                    <input type="search"  class="form-control" name="q" id="q" placeholder="search...">
+                                    <input type="search" class="form-control" name="q" id="q" placeholder="search...">
                                 </div>
                                 <div class="col-md-2">
                                     <button class="btn btn-dark">
@@ -146,67 +146,66 @@
 
                     @foreach ($reunions as $reunion)
                         <div class="reunion-card">
-                            <h2>Réunion: {{ $reunion->reunion->title }}</h2>
-                            <p>Objectif: {{ $reunion->reunion->objectif }}</p>
-                            <p>Lieu: {{ $reunion->reunion->lieu }}</p>
-                            @if ($reunion->pv)
-                                <div class="proces-verbal-card">
-                                    <h3>Procès-verbal:</h3>
-                                    <p>Document: <a href="{{ route('showInvitePvDetailled', $reunion->pv->id) }}" class="btn btn-outline-primary">view document</a>
-                                        <span class="btn btn-outline-dark"  data-toggle="modal" data-target="#addComment{{ $reunion->pv->id }}"> <i class="fa fa-comment-dots"></i> </span>
-                                    </p>
-                                    <p>Date de création: {{ $reunion->pv->created_at }}</p>
-                                </div>
+                            <h2>Réunion: {{ $reunion->title }}</h2>
+                            <p>Objectif: {{ $reunion->objectif }}</p>
+                            <p>Lieu: {{ $reunion->lieu }}</p>
+                            @if ($reunion->pv->count() > 0)
+                                @foreach ($reunion->pv as $pv)
+                                    <div class="proces-verbal-card">
+                                        <h3>Procès-verbal:</h3>
+                                        <p>Document: <a href="{{ route('showInvitePvDetailled', $pv->id) }}" class="btn btn-outline-primary">view document</a>
+                                            <span class="btn btn-outline-dark" data-toggle="modal" data-target="#addComment{{ $pv->id }}"> <i class="fa fa-comment-dots"></i> </span>
+                                        </p>
+                                        <p>Date de création: {{ $pv->created_at }}</p>
+                                    </div>
 
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="addComment{{ $reunion->pv->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-                                    <div class="modal-dialog modal-dialog-scrollable">
-                                        <div class="modal-content">
-                                            <div class="modal-header bg-dark">
-                                                <h5 class="modal-title text-white" id="exampleModalLabel">Commentaire</h5>
-                                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <form action="{{ route('handleMinistereAddComment') }}" method="post">
-                                                @csrf
-                                                <div class="modal-body">
-                                                    <h4>Commentaires</h4>
-                                                    @if ($reunion->pv->comments->count() > 0)
-                                                        @foreach ($reunion->pv->comments as $comment)
-                                                            <div class="comment mt-3">
-                                                                <div class="comment-info">
-                                                                    <div class="profile-image-container">
-                                                                        <img src="{{ asset('assets/font_client/images/icon/user.webp') }}" alt="User Profile Image" class="profile-image">
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="addComment{{ $pv->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-scrollable">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-dark">
+                                                    <h5 class="modal-title text-white" id="exampleModalLabel">Commentaire</h5>
+                                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <form action="{{ route('handleMinistereAddComment') }}" method="post">
+                                                    @csrf
+                                                    <div class="modal-body">
+                                                        <h4>Commentaires</h4>
+                                                        @if ($pv->comments->count() > 0)
+                                                            @foreach ($pv->comments as $comment)
+                                                                <div class="comment mt-3">
+                                                                    <div class="comment-info">
+                                                                        <div class="profile-image-container">
+                                                                            <img src="{{ asset('assets/font_client/images/icon/user.webp') }}" alt="User Profile Image" class="profile-image">
+                                                                        </div>
+                                                                        <div class="comment-details">
+                                                                            <span class="comment-user">{{ $comment->user->name }}</span>
+                                                                            <span class="comment-date">{{ $comment->created_at }}</span>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="comment-details">
-                                                                        <span class="comment-user">{{ $comment->user->name }}</span>
-                                                                        <span class="comment-date">{{ $comment->created_at }}</span>
+                                                                    <div class="comment-content">
+                                                                        <p>{{ $comment->comment }}</p>
                                                                     </div>
                                                                 </div>
-                                                                <div class="comment-content">
-                                                                    <p>{{ $comment->comment }}</p>
-                                                                </div>
-                                                            </div>
-                                                        @endforeach
-                                                    @else
-                                                        <p>Aucun commentaire disponible.</p>
-                                                    @endif
-                                                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                                    <input type="hidden" name="reunion_id" value="{{ $reunion->reunion->id }}">
-                                                    <div class="form-floating mt-3">
-                                                        <textarea class="form-control" name="comment" placeholder="Ecrire un commentaire ici..." id="floatingTextarea2" style="height: 80px"></textarea>
+                                                            @endforeach
+                                                        @else
+                                                            <p>Aucun commentaire disponible.</p>
+                                                        @endif
+                                                   {{--     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                                        <input type="hidden" name="reunion_id" value="{{ $reunion->id }}">
+                                                        <div class="form-floating mt-3">
+                                                            <textarea class="form-control" name="comment" placeholder="Ecrire un commentaire ici..." id="floatingTextarea2" style="height: 80px"></textarea>
+                                                        </div>--}}
                                                     </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Annuler</button>
-                                                    <button type="submit" class="btn btn-outline-success">Envoyer</button>
-                                                </div>
-                                            </form>
+                                                   {{-- <div class="modal-footer">
+                                                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Annuler</button>
+                                                        <button type="submit" class="btn btn-outline-success">Envoyer</button>
+                                                    </div>--}}
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-
+                                @endforeach
                             @else
                                 <p class="no-pv-message">Aucun procès-verbal disponible pour cette réunion.</p>
                             @endif
@@ -218,9 +217,5 @@
             </div>
         </div>
     </section>
-    <!-- END DATA TABLE-->
-
-
-
 
 @endsection

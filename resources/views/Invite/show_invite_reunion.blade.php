@@ -25,8 +25,8 @@
 
                 </div>
                 <div class="table-responsive table-responsive-data2">
-                    <table class="table table-data2">
-                        <thead>
+                    <table class="table " id="dataTable" style="border: solid 1px #2a2b2c">
+                        <thead style="background: #2a2a2c;color:white">
                             <tr>
                                 <th>title</th>
                                 <th>objectif</th>
@@ -63,7 +63,7 @@
                                         <button class="btn btn-success" disabled><i class="fa fa-download"></i></button>
                                         <button class="btn btn-warning"disabled><i class="fa fa-eye"></i></button>
                                     @else
-                                        <a class="btn btn-success" href="{{ route('download', ['file' => $data->document]) }}"><i class="fa fa-download"></i></a>
+                                        <a class="btn btn-success" href="{{ route('handleInviteDownloadReunion', ['file' => $data->document]) }}"><i class="fa fa-download"></i></a>
                                         <button data-toggle="modal" data-target="#exampleModal{{ $data->id }}"  class="btn btn-warning"><i class="fa fa-eye"></i></button>
                                     @endif
                                 </td>

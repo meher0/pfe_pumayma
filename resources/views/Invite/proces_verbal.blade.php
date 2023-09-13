@@ -126,7 +126,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h3 class="title-5 m-b-35">consulter des reunions</h3>
+                <h3 class="title-5 m-b-35">consulter des proces verbals</h3>
                 <div class="table-data__tool">
                     <div class="table-data__tool-left">
                        <div class="row">
@@ -160,9 +160,9 @@
 
 
                         <!-- Modal -->
-                        <div class="modal fade" id="addComment{{ $reunion->pv->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="addComment{{ $reunion->pv->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 
-                            <div class="modal-dialog modal-dialog-scrollable">
+                            <div class="modal-dialog role="document"">
                                 <div class="modal-content">
                                     <div class="modal-header bg-dark">
                                         <h5 class="modal-title text-white" id="exampleModalLabel">Commentaire</h5>

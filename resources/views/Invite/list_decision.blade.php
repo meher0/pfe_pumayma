@@ -44,7 +44,7 @@
                                 <td> {{$data->title}} </td>
                                 <td> {{$data->reunion_id}} </td>
                                 <td> {{$data->date_end_decision}} </td>
-                                <td> <a href="{{ route('handleDownloadDecision',$data->file) }}"> <i class="fa fa-file-pdf"></i> télecharger </a> </td>
+                                <td> <a href="{{ route('handleInviteDownload',$data->file) }}"> <i class="fa fa-file-pdf"></i> télecharger </a> </td>
                                 <td>
                                     @php
                                         $remainingDays = now()->diffInDays($data->date_end_decision);
@@ -56,7 +56,7 @@
                                             <button class="btn btn-primary disabled btn-sm">Encore {{ $remainingDays }} jours</button>
                                         @elseif($remainingDays >= 0)
                                             @if ($remainingDays == 0)
-                                                <button class="btn btn-danger disabled btn-sm">Aujourd hui</button>
+                                                <button class="btn btn-danger disabled btn-sm">Aujourd'hui</button>
                                             @else
                                                 <button class="btn btn-warning disabled btn-sm">Encore {{ $remainingDays }} jours</button>
                                             @endif
@@ -81,7 +81,7 @@
 
                                     @if($data->status== 1)
                                             <select>
-                                                <option selected readonly>En cours exécution</option>
+                                                <option selected readonly>En cours d'exécution</option>
                                             </select>
                                     @endif
 

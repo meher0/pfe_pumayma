@@ -1,131 +1,144 @@
 @extends('layouts.ministere')
+
 @section('content')
-    <div class="row">
-        <div class="col-lg-6">
+    <div class="container mt-4">
+        <div class="row">
+             <div class="col-md-6 col-lg-3">
+                <div class="statistic__item statistic__item--red">
+                    <h2 class="number"  style="color: white">
+                        @php
+                            $countDecisionFinish = \App\Models\Decision::where('status',0)->count();
+                        @endphp
+                        {{$countDecisionFinish}}
+                    </h2>
+                    <span class="desc" style="color: white">Aucune réponse</span>
+                    <div class="icon">
+                        <i class="zmdi zmdi-info"></i>
+                    </div>
+                </div>
+             </div>
+             <div class="col-md-6 col-lg-3">
+             <div class="statistic__item statistic__item--orange">
+                <h2 class="number"  style="color: white">
+                    @php
+                        $countDecisionEncours = \App\Models\Decision::where('status',1)->count();
+                    @endphp
+                    {{$countDecisionEncours}}
+                </h2>
+                <span class="desc"  style="color: white">En cours d'exécution</span>
+                 <div class="icon">
+                        <i class="zmdi zmdi-info"></i>
+                    </div>
+                 </div>
+             </div>
+             <div class="col-md-6 col-lg-3">
+                 <div class="statistic__item statistic__item--green">
+                    <h2 class="number"  style="color: white">
+                        @php
+                            $countDecisionActive= \App\Models\Decision::where('status',2)->count();
+                        @endphp
+                        {{$countDecisionActive}}
+                    </h2>
+                    <span class="desc"  style="color: white">Activé</span>
+                    <div class="icon">
+                        <i class="zmdi zmdi-check"></i>
+                    </div>
+                 </div>
+            </div>
+             <div class="col-md-6 col-lg-3">
+                <div class="statistic__item statistic__item--green">
+                    <h2 class="number"  style="color: white">
+                        @php
+                            $countDecisionSuccess = \App\Models\Decision::where('status',3)->count();
+                        @endphp
+                        {{$countDecisionSuccess}}
+                    </h2>
+                    <span class="desc"  style="color: white">la mise en oeuvre</span>
+                    <div class="icon">
+                        <i class="zmdi zmdi-check"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-5">
             <div class="au-card m-b-30">
                 <div class="au-card-inner">
-                    <h3 class="title-2 m-b-40">Single Bar Chart</h3>
-                    <canvas id="singelBarChart"></canvas>
+                    <h3 class="title-2 m-b-40">Réunions par Jour de la Semaine</h3>
+                    <canvas id="dayOfWeekChart"></canvas>
                 </div>
             </div>
         </div>
 
-    <div class="col-lg-6" >
-        <div class="au-card m-b-30" style="height: 550px !important;">
-            <div class="au-card-inner">
-                <h3 class="title-2 m-b-40">Pie Chart</h3>
-                <canvas id="pieChart"></canvas>
+        <div class="col-lg-5">
+            <div class="au-card m-b-30">
+                <div class="au-card-inner">
+                    <h3 class="title-2 m-b-40">Réunions par Mois</h3>
+                    <canvas id="meetingsByMonthChart"></canvas>
+                </div>
             </div>
         </div>
     </div>
-    </div>
+
+
+
+
+    <!-- Reste de votre contenu HTML -->
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
     <script>
-        $(document).ready(function () {
-            try {
-                var ctx = document.getElementById("singelBarChart");
-                if (ctx) {
-                    ctx.height = 150;
+        var xValues = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+        var yValues = @json($meetingsByDay);
+        var barColors = "lightblue";
 
-                    var labels = {!! json_encode($meetingsByMonth->pluck('month')) !!}; // Les noms des mois
-                    var data = {!! json_encode($meetingsByMonth->pluck('count')) !!}; // Le nombre de réunions par mois
-
-                    var myChart = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: labels,
-                            datasets: [
-                                {
-                                    label: "Statistiques des réunions par mois",
-                                    data: data,
-                                    borderColor: "rgba(0, 123, 255, 0.9)",
-                                    borderWidth: "0",
-                                    backgroundColor: "rgba(0, 123, 255, 0.5)"
-                                }
-                            ]
-                        },
-                        options: {
-                            legend: {
-                                position: 'top',
-                                labels: {
-                                    fontFamily: 'Poppins'
-                                }
-                            },
-                            scales: {
-                                xAxes: [{
-                                    ticks: {
-                                        fontFamily: "Poppins"
-                                    }
-                                }],
-                                yAxes: [{
-                                    ticks: {
-                                        beginAtZero: true,
-                                        fontFamily: "Poppins"
-                                    }
-                                }]
-                            }
+        new Chart("dayOfWeekChart", {
+            type: "bar",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                legend: { display: false },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
                         }
-                    });
+                    }]
                 }
-            } catch (error) {
-                console.log(error);
-            }
-
-
-
-            try {
-
-                //pie chart
-                var ctx = document.getElementById("pieChart");
-                if (ctx) {
-                    ctx.height = 200;
-                    var myChart = new Chart(ctx, {
-                        type: 'pie',
-                        data: {
-                            datasets: [{
-                                data: [45, 25, 20, 10],
-                                backgroundColor: [
-                                    "rgba(0, 123, 255,0.9)",
-                                    "rgba(0, 123, 255,0.7)",
-                                    "rgba(0, 123, 255,0.5)",
-                                    "rgba(0,0,0,0.07)"
-                                ],
-                                hoverBackgroundColor: [
-                                    "rgba(0, 123, 255,0.9)",
-                                    "rgba(0, 123, 255,0.7)",
-                                    "rgba(0, 123, 255,0.5)",
-                                    "rgba(0,0,0,0.07)"
-                                ]
-
-                            }],
-                            labels: [
-                                "Green",
-                                "Green",
-                                "Green"
-                            ]
-                        },
-                        options: {
-                            legend: {
-                                position: 'top',
-                                labels: {
-                                    fontFamily: 'Poppins'
-                                }
-
-                            },
-                            responsive: true
-                        }
-                    });
-                }
-
-
-            } catch (error) {
-                console.log(error);
             }
         });
 
+        var monthLabels =  ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',];
+        var monthData = @json($meetingsByMonth);
+        var monthBarColors = "lightgreen";
 
-
-      </script>
-
-
+        new Chart("meetingsByMonthChart", {
+            type: "bar",
+            data: {
+                labels: monthLabels,
+                datasets: [{
+                    backgroundColor: monthBarColors,
+                    data: monthData
+                }]
+            },
+            options: {
+                legend: { display: false },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
 @endsection

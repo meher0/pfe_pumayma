@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ministere;
 
 use App\Http\Controllers\Controller;
 use App\Models\comment;
+use App\Models\Decision;
 use App\Models\History;
 use App\Models\ProcesVerbal;
 use App\Models\Reunion;
@@ -15,36 +16,44 @@ use DB;
 class ministereController extends Controller
 {
     public function index(){
-        $monthNames = [
-            1 => 'Janvier',
-            2 => 'Février',
-            3 => 'Mars',
-            4 => 'Avril',
-            5 => 'Mai',
-            6 => 'Juin',
-            7 => 'Juillet',
-            8 => 'Août',
-            9 => 'Septembre',
-            10 => 'Octobre',
-            11 => 'Novembre',
-            12 => 'Décembre',
-        ];
 
-        $meetingsByMonth = DB::table('reunions')
-            ->select(DB::raw('MONTH(start_date) as month'), DB::raw('COUNT(*) as count'))
-            ->groupBy(DB::raw('MONTH(start_date)'))
-            ->get()
-            ->map(function ($item) use ($monthNames) {
-                $item->month = $monthNames[$item->month];
-                return $item;
-            });
+        $meetingsData = Reunion::selectRaw('MONTH(start_date) as month, COUNT(*) as count')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
 
-        // Créez un tableau avec tous les mois et initialisez les réunions à zéro
-    
-            // Triez le tableau par mois
-            $meetingsByMonth = collect($meetingsByMonth);
 
-        return view('ministre.index', compact('meetingsByMonth'));
+        $monthsOfYear = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        $meetingsByMonth = array_fill(0, 12, 0);
+
+        foreach ($meetingsData as $data) {
+            $monthIndex = $data->month - 1; // Mois commence à 1, donc soustrayez 1 pour obtenir un indice de tableau.
+
+            if ($monthIndex >= 0 && $monthIndex < 12) {
+                $meetingsByMonth[$monthIndex] = $data->count;
+            }
+        }
+
+
+        // Récupérez les données de la base de données
+        $meetingsData = Reunion::selectRaw('DAYNAME(start_date) as day_of_week, COUNT(*) as count')
+            ->groupBy('day_of_week')
+            ->orderByRaw('DAYOFWEEK(start_date)')
+            ->get();
+
+        // Créez un tableau pour les jours de la semaine et le nombre de réunions
+        $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        $meetingsByDay = array_fill(0, 7, 0);
+
+        foreach ($meetingsData as $data) {
+            $dayIndex = array_search($data->day_of_week, $daysOfWeek);
+
+            if ($dayIndex !== false) {
+                $meetingsByDay[$dayIndex] = $data->count;
+            }
+        }
+
+        return view('ministre.index', compact('meetingsByMonth','meetingsByDay'));
 
     }
 
@@ -62,16 +71,8 @@ class ministereController extends Controller
         return view('Ministre.show_invite_reunion',compact('datas'));
     }
 
-
-    public function download($file){
-        return response()->download(public_path('uploads/documents/'.$file));
-    }
-
     public function showMinisterePv(){
-        $userId = Auth::user()->id;
-        $user = User::find($userId);
-        $reunions = $user->invites()->with('pv')->get();
-
+        $reunions = Reunion::with(['pv.comments'])->get();
         return view('Ministre.proces_verbal', compact('reunions'));
     }
 
@@ -93,5 +94,16 @@ class ministereController extends Controller
         $data = ProcesVerbal::find($id);
 
         return view('Ministre.proces_verbal_detailled',compact('data'));
+    }
+
+    public function showministereDecision(){
+        $datas = Decision::latest()->get();
+        return view('Ministre.list_decision',compact('datas'));
+    }
+    public function handleMinistereDownload(Request $request,$file){
+        return response()->download(public_path('uploads/decision/'.$file));
+    }
+    public function handleMinistereDownloadReunion(Request $request,$file){
+        return response()->download(public_path('uploads/documents/'.$file));
     }
 }

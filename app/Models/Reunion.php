@@ -12,11 +12,9 @@ class Reunion extends Model
 
     protected $guarded =[];
 
-
     public function invites(){
         return $this->hasMany(Invite::class);
     }
-
     public function users()
     {
         return $this->belongsToMany(User::class, 'invites')->withTimestamps();
@@ -25,9 +23,12 @@ class Reunion extends Model
     {
         return $this->belongsToMany(Comment::class, 'reunion_id')->withTimestamps();
     }
-
     public function decisions()
     {
         return $this->hasMany(Decision::class);
+    }
+    public function pv()
+    {
+        return $this->hasMany(ProcesVerbal::class);
     }
 }

@@ -98,9 +98,10 @@ Route::group(['middleware'=>['auth','isInvite']], function(){
     Route::post('invite/pv/comment/new',      [PvController::class, 'handleAddComment'])->name('handleAddComment');
     Route::get('invite/pv/show/{id}/detaille',[PvController::class, 'showInvitePvDetailled'])->name('showInvitePvDetailled');
     Route::get('invite/decision/list',        [InviteController::class, 'showListDecision'])->name('showListDecision');
-    Route::put('invite/decision/update/{id}',        [InviteController::class, 'handleInviteUpdateDecision'])->name('handleInviteUpdateDecision');
+    Route::put('invite/decision/update/{id}', [InviteController::class, 'handleInviteUpdateDecision'])->name('handleInviteUpdateDecision');
     Route::get('invite/reunion/show',         [InviteController::class, 'showInviteReunion'])->name('showInviteReunion');
-    Route::get('/download/{file}',            [InviteController::class, 'download'])->name('download');
+    Route::get('invite/download/{file}',      [InviteController::class, 'handleInviteDownload'])->name('handleInviteDownload');
+    Route::get('invite/down/{file}',          [InviteController::class, 'handleInviteDownloadReunion'])->name('handleInviteDownloadReunion');
 
 });
 
@@ -115,8 +116,11 @@ Route::group(['middleware'=>['auth','isMinistere']], function(){
     Route::get('ministere/pv/show',              [ministereController::class, 'showMinisterePv'])->name('showMinisterePv');
     Route::post('ministere/pv/comment/new',      [ministereController::class, 'handleMinistereAddComment'])->name('handleMinistereAddComment');
     Route::get('ministere/pv/show/{id}/detaille',[ministereController::class, 'showMinisterePvDetailled'])->name('showMinisterePvDetailled');
-    Route::get('ministere/index',            [ministereController::class, 'index']);
-    Route::get('ministere/reunion/show',     [ministereController::class, 'showMinistereReunion'])->name('showMinistereReunion');
-    Route::get('/download/{file}',           [ministereController::class, 'download'])->name('download');
+    Route::get('ministere/index',                [ministereController::class, 'index']);
+    Route::get('ministere/reunion/show',         [ministereController::class, 'showMinistereReunion'])->name('showMinistereReunion');
+    Route::get('ministere/download/{file}',      [ministereController::class, 'handleMinistereDownload'])->name('handleMinistereDownload');
+    Route::get('ministere/down/{file}',          [ministereController::class, 'handleMinistereDownloadReunion'])->name('handleMinistereDownloadReunion');
+
+    Route::get('/ministere/decision/list',       [ministereController::class, 'showministereDecision'])->name('showministereDecision');
 
 });
