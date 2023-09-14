@@ -11,7 +11,9 @@ use App\Models\Reunion;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use DB;
+use Illuminate\Support\Facades\Validator;
 
 class ministereController extends Controller
 {
@@ -105,5 +107,65 @@ class ministereController extends Controller
     }
     public function handleMinistereDownloadReunion(Request $request,$file){
         return response()->download(public_path('uploads/documents/'.$file));
+    }
+
+
+
+    public function showMinistereEditProfile()
+    {
+        return view('Ministre.profile.profile');
+    }
+    public function handleMinistereUpdateProfile(Request $request){
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . auth()->user()->id,
+        ]);
+        $user = User::find(auth::user()->id);
+        $user->name     = $request->name;
+        $user->lastname = $request->lastname;
+        $user->email    = $request->email;
+        $user->update();
+        return back()->with('alert_green','profile has been updated');
+    }
+    public function handleMinistereUpdatePictureProfile(Request $request){
+        $request->validate([
+            'picture' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+        $user = User::find(auth::user()->id);
+        $file      = $request->file('picture');
+        $extension = $file->getClientOriginalExtension();
+        $filename  = time() . '.' . $extension;
+        $file->move('uploads/profile',$filename);
+        $user->picture = $filename;
+        $user->update();
+        return back()->with('alert_green','picture has been updated');
+    }
+    public function showMinistereEditPassword()
+    {
+        return view('Ministre.profile.password');
+    }
+    public function handleMinistereUpdatePassword(Request $request) {
+        $user = Auth::user(); // Get the authenticated user
+
+        $validator = Validator::make($request->all(), [
+            'old-password' => ['required', function ($attribute, $value, $fail) use ($user) {
+                if (!Hash::check($value, $user->password)) {
+                    $fail(__('The old password is incorrect.'));
+                }
+            }],
+            'new-password' => 'required|string|min:8|different:old-password',
+            'confirmation' => 'required|string|same:new-password',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $user->update([
+            'password' => Hash::make($request->input('new-password')),
+        ]);
+
+        return redirect()->back()->with('alert_green', 'Password updated successfully!');
     }
 }

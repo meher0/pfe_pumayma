@@ -120,7 +120,13 @@ Route::group(['middleware'=>['auth','isMinistere']], function(){
     Route::get('ministere/reunion/show',         [ministereController::class, 'showMinistereReunion'])->name('showMinistereReunion');
     Route::get('ministere/download/{file}',      [ministereController::class, 'handleMinistereDownload'])->name('handleMinistereDownload');
     Route::get('ministere/down/{file}',          [ministereController::class, 'handleMinistereDownloadReunion'])->name('handleMinistereDownloadReunion');
-
     Route::get('/ministere/decision/list',       [ministereController::class, 'showministereDecision'])->name('showministereDecision');
+
+    Route::get('/profile',                         [ministereController::class, 'showMinistereEditProfile'])->name('showMinistereEditProfile');
+    Route::post('/profile/update',                 [ministereController::class, 'handleMinistereUpdateProfile'])->name('handleMinistereUpdateProfile');
+    Route::post('/profile/picture/update',         [ministereController::class, 'handleMinistereUpdatePictureProfile'])->name('handleMinistereUpdatePictureProfile');
+    Route::get('/password',                        [ministereController::class, 'showMinistereEditPassword'])->name('showMinistereEditPassword');
+    Route::post('/password/update',                [ministereController::class, 'handleMinistereUpdatePassword'])->name('handleMinistereUpdatePassword');
+
 
 });
