@@ -38,15 +38,22 @@
 
 <body id="page-top">
 
+    @php
+        $id = \Illuminate\Support\Facades\Auth::user()->id;
+        $messages = \App\Models\ChMessage::where('from_id','<>',$id)
+        ->where('to_id',$id)
+        ->where('seen',0)
+        ->get();
+        $timenow = Carbon\carbon::now();
+    @endphp
+
     <!-- Page Wrapper -->
     <div id="wrapper">
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/home">
                 <div class="sidebar-brand-icon rotate-n-15">
-
                 </div>
                 <div class="sidebar-brand-text mx-3"> Administrateur  <sup></sup></div>
             </a>
@@ -80,23 +87,6 @@
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                    <!--  Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="البحث عن...."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                <i class="fas fa-microphone fa-sm"></i>
-                                </button>
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
@@ -124,35 +114,7 @@
                             </div>
                         </li>
 
-                        <!-- Nav Item - Alerts -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
-                                <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
-                            </a>
-                            <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
-                                    Alerts Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                                    </div>
-                                </a>
 
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                            </div>
-                        </li>
 
                         <!-- Nav Item - Messages -->
                         <li class="nav-item dropdown no-arrow mx-1">
@@ -160,7 +122,9 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
                                 <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter">7</span>
+                                    @if ($messages->count() <> 0)
+                                    <span class="badge badge-danger badge-counter">{{ $messages->count() }}</span>
+                                    @endif
                             </a>
                             <!-- Dropdown - Messages -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -168,8 +132,18 @@
                                 <h6 class="dropdown-header">
                                     Message Center
                                 </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="chatify">
-
+                                    @forelse ($messages as $message)
+                                    <a class="dropdown-item d-flex align-items-center" href="/chatify/{{ $message->from_id }}">
+                                        <div class="font-weight-bold">
+                                            <div class="text-truncate">
+                                                {{ $message->body }}
+                                            </div>
+                                            <div class="small text-gray-500">{{  $message->created_at->diffInMinutes($timenow) }} min ago</div>
+                                        </div>
+                                        @empty
+                                        <span> no messages </span>
+                                    </a>
+                                     @endforelse
 
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
                             </div>
@@ -184,33 +158,52 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item dropdown">
-                                <a id="nav-link contact" class="nav-link contact" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
+
+                        <li class="nav-item dropdown" >
+                            <a style="color: black !important;" id="nav-link contact" class="nav-link contact" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Français
+                                <span class="caret"></span>
+                            </a>
 
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            <div class="dropdown-menu dropdown-menu-left shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
 
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                 <i class="fas fa-sign-out "></i>
-                                 {{ __('تسجيل الخروج') }}
-                                    </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
+                                <a class="dropdown-item" href="">
+                                    Arabie
+                                </a>
+
                             </div>
                         </li>
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                            <li class="nav-item dropdown">
+                                <a style="color: black !important;" id="nav-link contact" class="nav-link contact" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                </a>
+
+                                <!-- Dropdown - User Information -->
+                                <div class="dropdown-menu dropdown-menu-left shadow animated--grow-in"
+                                    aria-labelledby="userDropdown">
+
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                                        document.getElementById('logout-form').submit();">
+                                    <i class="fas fa-sign-out "></i>
+                                    {{ __('Déconnexion') }}
+                                        </a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
+                                </div>
+                            </li>
                         @endguest
                     </ul>
                     <div class="topbar-divider d-none d-sm-block"></div>
 
                     <a class="navbar-brand" href="/welcome">
-                        <img src="..\images\logo1.png". width="80%" height="60%" >
+                        <img src="..\images\logo1.png". width="20%" height="20%;" style="border-radius: 50px;" >
                        </a>
                 </nav>
                 <!-- End of Topbar -->

@@ -43,7 +43,7 @@
                             @foreach ($datas as $data)
 
                                 @php
-                                    $startDate = Carbon\Carbon::parse($data->start_date);
+                                    $startDate = Carbon\Carbon::parse($data->planifier->start);
                                     $now = Carbon\Carbon::parse(Carbon\Carbon::now());
                                     $diff = $startDate->diffInDays($now);
 
@@ -53,13 +53,13 @@
                                 <td>{{ $data->objectif }}</td>
                                 <td>{{ $data->type }}</td>
                                 <td>{{ $data->lieu }}</td>
-                                <td>{{ $data->start_date }}</td>
-                                <td>{{ $data->end_date }}</td>
+                                <td>{{ $data->planifier->start }}</td>
+                                <td>{{ $data->planifier->end }}</td>
                                 <td>{{ $data->document }}</td>
 
                                 <td>
 
-                                    @if ($data->start_date > now())
+                                    @if ($data->planifier->start > now())
                                         <button class="btn btn-success" disabled><i class="fa fa-download"></i></button>
                                         <button class="btn btn-warning"disabled><i class="fa fa-eye"></i></button>
                                     @else

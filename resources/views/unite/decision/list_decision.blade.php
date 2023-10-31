@@ -44,7 +44,6 @@
                     <th>Titre</th>
                     <th>Reunion ID</th>
                     <th>Date fin désicion</th>
-                    <th>Document</th>
                     <th>Rappel</th>
                     <th>Status</th>
                     <th>Personne responsable</th>
@@ -58,7 +57,7 @@
                         <td> {{$data->title}} </td>
                         <td> {{$data->reunion_id}} </td>
                         <td> {{$data->date_end_decision}} </td>
-                        <td> <a href="{{ route('handleDownloadDecision',$data->file) }}"> <i class="fa fa-file-pdf"></i> télecharger </a> </td>
+                    
                         <td>
                             @php
                                 $remainingDays = now()->diffInDays($data->date_end_decision);

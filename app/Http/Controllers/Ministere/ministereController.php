@@ -19,7 +19,8 @@ class ministereController extends Controller
 {
     public function index(){
 
-        $meetingsData = Reunion::selectRaw('MONTH(start_date) as month, COUNT(*) as count')
+        $meetingsData = Reunion::selectRaw('MONTH(planifiers.start) as month, COUNT(*) as count')
+            ->join('planifiers', 'reunions.planifier_id', '=', 'planifiers.id')
             ->groupBy('month')
             ->orderBy('month')
             ->get();
@@ -38,10 +39,12 @@ class ministereController extends Controller
 
 
         // Récupérez les données de la base de données
-        $meetingsData = Reunion::selectRaw('DAYNAME(start_date) as day_of_week, COUNT(*) as count')
+        $meetingsData = Reunion::selectRaw('DAYNAME(planifiers.start) as day_of_week, COUNT(*) as count')
+            ->join('planifiers', 'reunions.planifier_id', '=', 'planifiers.id')
             ->groupBy('day_of_week')
-            ->orderByRaw('DAYOFWEEK(start_date)')
+            ->orderByRaw('DAYOFWEEK(planifiers.start)')
             ->get();
+
 
         // Créez un tableau pour les jours de la semaine et le nombre de réunions
         $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];

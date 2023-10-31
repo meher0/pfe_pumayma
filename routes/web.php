@@ -12,7 +12,7 @@ use App\Http\Controllers\PvController;
 use App\Http\Controllers\Admin\HistoryController;
 
 
-
+Route::get('invite/pv/show/{id}/detaille',[PvController::class, 'showInvitePvDetailled'])->name('showInvitePvDetailled');
 Route::get('/', function () {
     return view('welcome');
 });
@@ -65,11 +65,18 @@ Route::group(['middleware'=>['auth','isUnite']], function(){
     Route::get('/view_invite_reunion/{id}',      [ReunionController::class, 'GetInviteReunion'])->name('view_invite_reunion');
 
     Route::get('/delete_reunion/{id}',           [ReunionController::class, 'DeleteReunion'])->name('delete_reunion');
+    Route::put('/reporter_reunion/{id}',         [ReunionController::class, 'handleReporterReunion'])->name('handleReporterReunion');
 
     //route pv
 
     Route::get('/form_pv/{id}',                  [ReunionController::class, 'showReunionFinish'])->name('showReunionFinish');
     Route::post('/proces/verbal/{id}/new',       [PvController::class, 'HandleAddProcesVerbal'])->name('HandleAddProcesVerbal');
+
+    Route::get('unite/pv/show',                  [PvController::class, 'showUnitePv'])->name('showUnitePv');
+
+
+    Route::get('unite/file/{id}/show',                [ReunionController::class, 'showUniteFile'])->name('showUniteFile');
+
 
     //decision
 
@@ -78,6 +85,8 @@ Route::group(['middleware'=>['auth','isUnite']], function(){
     Route::post('/unite/decision/new',           [DecisionController::class, 'handleAddDecision'])->name('handleAddDecision');
     Route::get('/unite/download/decision{file}', [DecisionController::class, 'handleDownloadDecision'])->name('handleDownloadDecision');
     Route::get('/unite/delete/decision{id}',     [DecisionController::class, 'handleUniteDeleteDecision'])->name('handleUniteDeleteDecision');
+
+
 
 
 
@@ -96,7 +105,7 @@ Route::group(['middleware'=>['auth','isInvite']], function(){
 
     Route::get('invite/pv/show',              [PvController::class, 'showInvitePv'])->name('showInvitePv');
     Route::post('invite/pv/comment/new',      [PvController::class, 'handleAddComment'])->name('handleAddComment');
-    Route::get('invite/pv/show/{id}/detaille',[PvController::class, 'showInvitePvDetailled'])->name('showInvitePvDetailled');
+
     Route::get('invite/decision/list',        [InviteController::class, 'showListDecision'])->name('showListDecision');
     Route::put('invite/decision/update/{id}', [InviteController::class, 'handleInviteUpdateDecision'])->name('handleInviteUpdateDecision');
     Route::get('invite/reunion/show',         [InviteController::class, 'showInviteReunion'])->name('showInviteReunion');

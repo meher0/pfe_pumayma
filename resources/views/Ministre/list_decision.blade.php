@@ -43,7 +43,7 @@
                     <th>Titre</th>
                     <th>Reunion ID</th>
                     <th>Date fin désicion</th>
-                    <th>Document</th>
+                   {{--   <th>Document</th>  --}}
                     <th>Rappel</th>
                     <th>Status</th>
                     <th>Personne responsable</th>
@@ -56,7 +56,7 @@
                         <td> {{$data->title}} </td>
                         <td> {{$data->reunion_id}} </td>
                         <td> {{$data->date_end_decision}} </td>
-                        <td> <a href="{{ route('handleMinistereDownload',$data->file) }}"> <i class="fa fa-file-pdf"></i> télecharger </a> </td>
+                       {{--   <td> <a href="{{ route('handleMinistereDownload',$data->file) }}"> <i class="fa fa-file-pdf"></i> télecharger </a> </td>  --}}
                         <td>
                             @php
                                 $remainingDays = now()->diffInDays($data->date_end_decision);
@@ -68,7 +68,7 @@
                                     <button class="btn btn-primary disabled btn-sm">Encore {{ $remainingDays }} jours</button>
                                 @elseif($remainingDays >= 0)
                                     @if ($remainingDays == 0)
-                                        <button class="btn btn-danger disabled btn-sm">Aujourd'hui</button>
+                                        <button class="btn btn-danger disabled btn-sm">Aujourd&apos;hui</button>
                                     @else
                                         <button class="btn btn-warning disabled btn-sm">Encore {{ $remainingDays }} jours</button>
                                     @endif
@@ -93,7 +93,7 @@
 
                             @if($data->status== 1)
                                 <select>
-                                    <option selected readonly>En cours d'exécution</option>
+                                    <option selected readonly>En cours d&apos;exécution</option>
                                 </select>
                             @endif
 
@@ -111,8 +111,8 @@
                     <div class="modal fade" id="exampleModal{{ $data->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <div class="modal-header bg-gradient-primary">
-                                    <h5 class="modal-title text-white" id="exampleModalLabel">Information sur responsable</h5>
+                                <div class="modal-header bg-dark">
+                                    <h5 class="modal-title text-white" id="exampleModalLabel" >Information sur responsable</h5>
                                     <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">

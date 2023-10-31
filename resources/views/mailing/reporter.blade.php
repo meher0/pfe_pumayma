@@ -7,7 +7,10 @@
     <title>Document</title>
 </head>
 <body>
-<h2>
-    La plateforme numérique des réunions ministérielles : Votre compte a été activé  <b> {{$password}} </h2>
+<h4>
+    <h3>Madame / Monsieur </h3> <br>
+    Nous avons l’honneur de vous informer de la tenue d’une réunion [{{$title}}] <br>
+    Celle-ci aura lieu en date du [{{$date}}]  au sein à l’adresse suivante  ({{$address}})
+</h4>
 </body>
 </html>

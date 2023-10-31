@@ -47,7 +47,7 @@
                     <th>lieu</th>
                     <th>start</th>
                     <th>fin</th>
-                    <th>document</th>
+
                     <th>action</th>
                 </tr>
                 </thead>
@@ -59,9 +59,9 @@
                         <td> {{$data->objectif}} </td>
                         <td> {{$data->type}} </td>
                         <td> {{$data->lieu}} </td>
-                        <td> {{$data->start_date}} </td>
-                        <td> {{$data->end_date}} </td>
-                        <td> {{$data->document}} </td>
+                        <td> {{$data->planifier->start}} </td>
+                        <td> {{$data->planifier->end}} </td>
+
                         <td>
                             <a href="#"  data-bs-toggle="modal" data-bs-target="#modalAdd{{$data->id}}" class="btn btn-primary btn-sm">ajouté décision </a>
                         </td>
@@ -86,16 +86,15 @@
                                             <label for="date_fin" class="form-label">Date fin décision</label>
                                             <input type="datetime-local" name="date_fin_decision" class="form-control" id="date_fin">
                                         </div>
-                                        <div class="mb-3">
-                                            <label for="doct" class="form-label">document</label>
-                                            <input type="file" name="file" class="form-control" id="doct">
-                                        </div>
+
                                         <div class="mb-3">
                                             <label for="person" class="form-label">personne mise en œuvre</label>
                                             <select class="form-control" id="person" name="invite">
-                                                <option disabled selected>--choisir invites--</option>
+                                                <option disabled selected>--Vhoisir invites--</option>
                                                 @foreach ($data->invites as $invite)
-                                                    <option value="{{$invite->user->id}}">{{$invite->user->name}}</option>
+                                                    @if ($invite->users)
+                                                        <option value="{{$invite->users->id}}">{{$invite->users->name}}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>

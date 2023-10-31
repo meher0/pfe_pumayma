@@ -31,7 +31,7 @@ class rappelreunion extends Command
         $datas = Reunion::all();
 
         foreach ($datas as $data) {
-            $carbonDate = Carbon::parse($data->start_date);
+            $carbonDate = Carbon::parse($data->planifier->start);
 
             $now        = Carbon::now();
             $rappel     = $carbonDate->diffInDays($now);

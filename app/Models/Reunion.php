@@ -5,12 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
 class Reunion extends Model
 {
     use HasFactory;
-
-    protected $guarded =[];
 
     public function invites(){
         return $this->hasMany(Invite::class);
@@ -30,5 +27,12 @@ class Reunion extends Model
     public function pv()
     {
         return $this->hasMany(ProcesVerbal::class);
+    }
+
+
+
+    public function planifier()
+    {
+        return $this->belongsTo(Planifier::class);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reunion;
 use Illuminate\Http\Request;
 use App\Models\ProcesVerbal;
 use App\Models\User;
@@ -30,6 +31,12 @@ class PvController extends Controller
 
       return view('Invite.proces_verbal', compact('reunions'));
     }
+    public function showUnitePv(){
+
+        $reunions = Reunion::with(['pv.comments'])->get();
+
+      return view('unite.pv.index', compact('reunions'));
+    }
 
     public function handleAddComment(Request $request)
     {
@@ -47,7 +54,6 @@ class PvController extends Controller
 
     public function showInvitePvDetailled ($id){
         $data = ProcesVerbal::find($id);
-
         return view('Invite.proces_verbal_detailled',compact('data'));
     }
 }

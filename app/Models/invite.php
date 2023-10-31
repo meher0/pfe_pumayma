@@ -16,6 +16,11 @@ class invite extends Model
         return $this->belongsTo(Reunion::class);
     }
 
+    public function users()
+    {
+        return $this->belongsTo(User::class,  'user_id');
+    }
+
 
     public function pv()
     {

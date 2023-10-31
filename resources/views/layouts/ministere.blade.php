@@ -51,6 +51,13 @@
 </head>
 
 <body class="animsition">
+    @php
+        $id = \Illuminate\Support\Facades\Auth::user()->id;
+        $messages = \App\Models\ChMessage::where('from_id','<>',$id)
+        ->where('to_id',$id)
+        ->where('seen',0)
+        ->get();
+    @endphp
 
     <!-- HEADER DESKTOP-->
     <header class="header-desktop3 d-none d-lg-block">
@@ -93,28 +100,32 @@
                 <div class="header__tool">
 
                     <div class="header-button-item js-item-menu">
-                        <span class="badge">6</span>
+                        @if ($messages->count() <> 0)
+                          <span class="badge bg-red">{{ $messages->count() }}</span>
+                        @endif
                         <i class="zmdi zmdi-email"></i>
                         <div class="notifi-dropdown notifi-dropdown--no-bor js-dropdown">
-                            <div class="notifi__title">
-                                <p>You have 3 Notifications</p>
-                            </div>
-                            <div class="notifi__item">
+                            @forelse ($messages as $message)
+                            <a href="http://localhost:8000/chatify/{{ $message->from_id }}" class="notifi__item">
                                 <div class="bg-c1 img-cir img-40">
                                     <i class="zmdi zmdi-email-open"></i>
                                 </div>
                                 <div class="content">
-                                    <p>You got a email notification</p>
-                                    <span class="date">April 12, 2018 06:50</span>
+                                    <p>{{ $message->body }} </p>
+                                    <span class="date">{{  $message->created_at->diffInMinutes($timenow) }} min ago</span>
                                 </div>
-                            </div>
+                            </a>
+
+
+                            @empty
+                           <span> no messages </span>
+                            @endforelse
 
                             <div class="notifi__footer">
-                                <a href="#">All Messages</a>
+                                <a href="http://localhost:8000/chatify">All Messages</a>
                             </div>
                         </div>
                     </div>
-
 
                     <div class="account-wrap">
                         <div class="account-item account-item--style2 clearfix js-item-menu">

@@ -36,6 +36,13 @@
 </head>
 
 <body id="page-top">
+    @php
+        $id = \Illuminate\Support\Facades\Auth::user()->id;
+        $messages = \App\Models\ChMessage::where('from_id','<>',$id)
+        ->where('to_id',$id)
+        ->where('seen',0)
+        ->get();
+    @endphp
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -43,7 +50,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="unite/home">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{url('unite/home')}}">
                 <div class="sidebar-brand-icon rotate-n-15">
 
                 </div>
@@ -55,7 +62,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="unite/home">
+                <a class="nav-link" href="{{url('unite/home')}}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>لوحة التحكم</span></a>
             </li>
@@ -129,9 +136,9 @@
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="">
+                <a class="nav-link" href="{{ route('showUnitePv') }}">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>الارشيف</span></a>
+                    <span>Consulter pv</span></a>
             </li>
 
           <!-- Divider -->
@@ -197,44 +204,15 @@
                                 </form>
                             </div>
                         </li>
-
-                        <!-- Nav Item - Alerts -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
-                                <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
-                            </a>
-                            <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
-                                    Alerts Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                                    </div>
-                                </a>
-
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                            </div>
-                        </li>
-
                         <!-- Nav Item - Messages -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="chatify" id="messagesDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
                                 <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter">7</span>
+                                    @if ($messages->count() <> 0)
+                                    <span class="badge badge-danger badge-counter">{{ $messages->count() }}</span>
+                                    @endif
                             </a>
                             <!-- Dropdown - Messages -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -242,12 +220,23 @@
                                 <h6 class="dropdown-header">
                                     Message Center
                                 </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="chatify">
-
+                                    @forelse ($messages as $message)
+                                        <a class="dropdown-item d-flex align-items-center" href="/chatify/{{ $message->from_id }}">
+                                            <div class="font-weight-bold">
+                                                <div class="text-truncate">
+                                                    {{ $message->body }}
+                                                </div>
+                                                <div class="small text-gray-500">{{  $message->created_at->diffInMinutes($timenow) }} min ago</div>
+                                            </div>
+                                        </a>
+                                    @empty
+                                        <span style="padding-left: 20px;"> Aucune messages </span>
+                                     @endforelse
 
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
                             </div>
                         </li>
+
 
                         <div class="topbar-divider d-none d-sm-block"></div>
                         @guest
@@ -284,7 +273,7 @@
                     <div class="topbar-divider d-none d-sm-block"></div>
 
                     <a class="navbar-brand" href="/welcome">
-                        <img src="..\images\logo1.png". width="80%" height="60%" >
+                        <img src="..\images\logo1.png". width="30%" height="30%"; >
                        </a>
                 </nav>
                 <!-- End of Topbar -->

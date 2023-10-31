@@ -24,11 +24,11 @@
             </div>
             <div class="col-md-4">
               <label for="start" class="form-label">Date debut</label>
-              <input type="text" class="form-control" id="start" value="{{ $data->start_date }}" readonly>
+              <input type="text" class="form-control" id="start" value="{{ $data->planifier->start }}" readonly>
             </div>
             <div class="col-md-4">
               <label for="end" class="form-label">Date fin</label>
-              <input type="text" class="form-control" id="end" value="{{ $data->end_date }}" readonly>
+              <input type="text" class="form-control" id="end" value="{{ $data->planifier->end }}" readonly>
             </div>
             <div class="col-md-4">
               <label for="lieu" class="form-label">Lieu</label>

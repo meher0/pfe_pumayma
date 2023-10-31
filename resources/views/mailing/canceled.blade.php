@@ -7,7 +7,8 @@
     <title>Document</title>
 </head>
 <body>
-<h2>
-    La plateforme numérique des réunions ministérielles : Votre compte a été activé  <b> {{$password}} </h2>
+<h2 style="background: #f55e5e;color: white;padding-left: 20px;">
+    la reunion :  <b> {{$name}}</b> a été annulé
+</h2>
 </body>
 </html>

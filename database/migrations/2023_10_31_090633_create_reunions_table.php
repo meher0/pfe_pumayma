@@ -15,14 +15,13 @@ class CreateReunionsTable extends Migration
     {
         Schema::create('reunions', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(\App\Models\Planifier::class)->constrained()->onDelete('cascade');
             $table->string('title');
             $table->string('objectif');
             $table->string('type');
             $table->string('document', 5000)->nullable();
             $table->string('lieu');
             $table->integer('etat')->default(0);
-            $table->timestamp('start_date')->nullable();
-            $table->timestamp('end_date')->nullable();
             $table->timestamps();
         });
     }

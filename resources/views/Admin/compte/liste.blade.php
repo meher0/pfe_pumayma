@@ -31,7 +31,7 @@
       </div>
 
         <div class="table-sites">
-        <table class="table table-hover">
+        <table id="history-table" class="table table-hover">
           <thead>
             <tr>
     <th></th>
@@ -93,13 +93,14 @@
     <form method="POST" action="{{ route('handleAddAccount') }}">
         @csrf
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+      <div class="modal-header" style="background: #3a60d0;color:white;">
+        <h5 class="modal-title" id="staticBackdropLabel">Ajouter utilisateur</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
             @csrf
                 <div class="form-group row">
+                    <label for="name" class="col-md-4 col-form-label text-md-left">{{ __('Nom et prénom') }}</label>
                         <div class="col-md-6">
                             <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
@@ -109,12 +110,12 @@
                                 </span>
                             @enderror
                         </div>
-                        <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('الاسم و اللقب') }}</label>
+
 
                     </div>
 
                     <div class="form-group row">
-
+                        <label for="email" class="col-md-4 col-form-label text-md-left"> Email </label>
                         <div class="col-md-6">
                             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
 
@@ -124,11 +125,11 @@
                                 </span>
                             @enderror
                         </div>
-                        <label for="email" class="col-md-4 col-form-label text-md-right"> الحساب الالكتروني </label>
+
 
                     </div>
                     <div class="form-group row">
-
+                        <label for="email" class="col-md-4 col-form-label text-md-left">Téléphone</label>
                 <div class="col-md-6">
                     <input id="phone" type="number" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone" required>
 
@@ -138,19 +139,18 @@
                         </span>
                     @enderror
                 </div>
-                <label for="email" class="col-md-4 col-form-label text-md-right">الهاتف</label>
+
 
             </div>
 
                 <div class="form-group row">
-
+                    <label for="email" class="col-md-4 col-form-label text-md-left">{{ __('role') }}</label>
                 <div class="col-md-6">
                 <select id="role" class="form-control @error('role') is-invalid @enderror" name="role" value="{{ old('role') }}" required autocomplete="role">
                 <option disabled  selected> --choose role --</option>
                 <option value="unite"> unite</option>
                 <option value="ministere"> ministere</option>
                 <option value="invite"> invite</option>
-                <option value="visiteur"> visiteur</option>
                 </select>
 
 
@@ -160,7 +160,7 @@
                 </span>
                 @enderror
                 </div>
-                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('الصفة') }}</label>
+
 
                 </div>
 
@@ -174,4 +174,26 @@
   </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#history-table').DataTable({
+      language: {
+        search: "",
+        searchPlaceholder: "Rechercher...",
+        paginate: {
+          previous: "Précédent",
+          next: "Suivant"
+        }
+      },
+      lengthMenu: [5, 10, 15, 20],
+      "dom": '<"toolbar">frtip',
+      "pagingType": "simple_numbers"
+    });
+
+
+  });
+</script>
 @endsection

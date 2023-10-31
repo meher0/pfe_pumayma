@@ -30,6 +30,7 @@ class InviteController extends Controller
     public function handleInviteDownload($file){
         return response()->download(public_path('uploads/decision/'.$file));
     }
+    
     public function handleInviteDownloadReunion($file){
         return response()->download(public_path('uploads/documents/'.$file));
     }

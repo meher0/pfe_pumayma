@@ -10,6 +10,8 @@ use App\Models\Invite;
 use DB;
 use Mail;
 use App\Mail\rappelmail;
+use App\Mail\cancelMail;
+use App\Mail\postponedMail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Stroage;
 use App\Models\History;
@@ -19,9 +21,16 @@ use Illuminate\Support\Facades\Auth;
 class ReunionController extends Controller
 {
     public function PrepareReunion (){
-        $planifies = Planifier::latest()->get();
+        $planifies = Planifier::where('status',null)->latest()->get();
         return view('unite.reunion.prepare_reunion',compact('planifies'));
     }
+
+    public function showUniteFile ($id){
+        $data = Reunion::find($id);
+
+        return view('unite.reunion.file',compact('data'));
+    }
+
 
 
     public function DetailReunion ($id){
@@ -31,14 +40,12 @@ class ReunionController extends Controller
     }
 
     public function AddReunion(Request  $request) {
-        $time_start_reunion = $request->start;
+        $planifierId =$request->planifier_id;
 
-        $time_validate = Reunion::where('start_date',$time_start_reunion)->get();
+            $data = Planifier::find($planifierId);
 
-        if ($time_validate->count()) {
-            return redirect('fetch_reunion')->with('status','ce date ne pas disponible pour fait un reunion');
-
-        } else {
+            $data->status = 1;
+            $data->save();
 
             $user_id = Auth::user()->id;
             $action ="faire un ajouter de reunion";
@@ -55,10 +62,9 @@ class ReunionController extends Controller
             $file->move('uploads/documents',$filename);
 
             $reunions->document   =$filename;
+            $reunions->planifier_id = $planifierId;
             $reunions->title = $request->title;
             $reunions->type = $request->type;
-            $reunions->start_date = $request->start;
-            $reunions->end_date = $request->end;
             $reunions->objectif = $request->objectif;
             $reunions->lieu = $request->lieu;
             $reunions->save();
@@ -78,7 +84,7 @@ class ReunionController extends Controller
 
 
 
-    }
+
 
     //*********download document******* */
 
@@ -101,7 +107,13 @@ class ReunionController extends Controller
         $hitory->user_id = $user_id;
         $hitory->action = $action;
         $hitory->save();
+
         $data = Reunion::find($id);
+        $users = $data->users;
+        foreach ($users as $user) {
+            // Send an email to each user
+            Mail::to($user->email)->send(new cancelMail($data->title)); // Replace YourEmailView with the actual email view you want to send.
+        }
         $data->delete();
         return back()->with('alert_red','date deleted');
     }
@@ -123,6 +135,23 @@ class ReunionController extends Controller
     public function showReunionFinish($id){
         $data = Reunion::find($id);
         return view('unite.reunion.form_pv',compact('data'));
+    }
+
+
+    public function handleReporterReunion(Request $request,$id){
+        $data = Planifier::find($request->planifier_id);
+        $data->start = $request->start;
+        $data->end   = $request->end;
+
+        $reunionFind = Reunion::find($id);
+        $users = $reunionFind->users;
+        foreach ($users as $user) {
+            Mail::to($user->email)->send(new postponedMail($reunionFind->title,$reunionFind->lieu,$request->start));
+        }
+
+
+        $data->update();
+        return back()->with('alert_green','réunion a été reporter');
     }
 
 }

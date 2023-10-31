@@ -21,7 +21,7 @@ body {
 }
 
 h1 {
-  text-align: center;  
+  text-align: center;
 }
 
 input {
@@ -66,7 +66,7 @@ button:hover {
   width: 15px;
   margin: 0 2px;
   background-color: #bbbbbb;
-  border: none;  
+  border: none;
   border-radius: 50%;
   display: inline-block;
   opacity: 0.5;
@@ -85,18 +85,26 @@ button:hover {
 
 <form id="regForm" method="post" action="{{ url('add_reunion') }}" enctype="multipart/form-data">
     @csrf
-   
+
   <h1>Prépare Réunion</h1>
   <!-- One "tab" for each step in the form: -->
   <div class="tab">Informations Géneral:
     <p><input placeholder="First name..." oninput="this.className = ''" name="title"  value="{{ $planifier->title }}" readonly></p>
+    <p><input type="hidden" placeholder="First name..." oninput="this.className = ''" name="planifier_id"  value="{{ $planifier->id }}" readonly></p>
     <p><input placeholder="Last name..."  oninput="this.className = ''" name="start"  value="{{ $planifier->start }}" readonly></p>
     <p><input placeholder="E-mail..."     oninput="this.className = ''" name="end"    value="{{ $planifier->end }}" readonly></p>
   </div>
-  
+
   <div class="tab">Détails:
-    <p><input placeholder="objectif" oninput="this.className = ''" name="objectif"></p>
-    <p><input placeholder="type"     oninput="this.className = ''" name="type"></p>
+    <p><input placeholder="objectif"  oninput="this.className = ''" name="objectif"></p>
+      <p>
+          <select name="type"  oninput="this.className = ''">
+              <option disabled selected>-- choisir type --</option>
+              <option value="0">Réunions de travail</option>
+              <option value="1">Réunions de formation</option>
+              <option value="2">Réunions ministérielle</option>
+          </select>
+      </p>
     <p><input placeholder="lieu"     oninput="this.className = ''" name="lieu"></p>
     <p><input type="file" name="document" class="form-control"></p>
   </div>
@@ -104,8 +112,8 @@ button:hover {
     @foreach ($users as $user)
     <p><input type="checkbox" oninput="this.className = ''" name="invites[]" value="{{ $user->id }}"> {{ $user->name }}</p>
     @endforeach
-  
-   
+
+
   </div>
   <div style="overflow:auto;">
     <div style="float:right;">
@@ -118,8 +126,8 @@ button:hover {
     <span class="step"></span>
     <span class="step"></span>
     <span class="step"></span>
-   
-   
+
+
   </div>
 </form>
 
